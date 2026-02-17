@@ -3,10 +3,6 @@
 A modern, native iOS client for Hacker News built with **SwiftUI**. This app fetches the latest top stories using the Algolia API and allows users to read articles within the app using a WebKit integration.
 
 ## 📱 Screenshots
-<img width="423" height="845" alt="Screenshot 2026-02-17 at 12 33 41" src="" />
-<img width="426" height="846" alt="Screenshot 2026-02-17 at 12 34 03" src="" />
-
-
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/fda8630e-fa31-4bb9-8f55-7ac6565c78fb" width="250" alt="News List">
