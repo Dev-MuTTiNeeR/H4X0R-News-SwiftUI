@@ -9,22 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var networkManager = NetworkManager()
+    // We claim ownership of the object with @State (@ObservedObject is old.)
+    @State private var networkManager = NetworkManager()
     
     var body: some View {
-        NavigationView {
+        NavigationStack { // Next-generation navigation
             List(networkManager.posts) { post in
                 NavigationLink(destination: DetailView(url: post.url)) {
                     HStack {
                         Text(String(post.points))
+                            .foregroundStyle(.secondary)
+                            .frame(width: 40, alignment: .leading)
                         Text(post.title)
                     }
                 }
             }
             .navigationTitle("H4X0R NEWS")
-        }
-        .onAppear {
-            networkManager.fetchData()
+            .listStyle(.plain)
+            
+            // Starts fetching data when the view appears
+            .task {
+                await networkManager.fetchData()
+            }
         }
     }
 }

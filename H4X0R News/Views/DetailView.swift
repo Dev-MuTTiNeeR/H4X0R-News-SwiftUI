@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import WebKit
 
 struct DetailView: View {
     
@@ -14,6 +13,7 @@ struct DetailView: View {
     
     var body: some View {
         WebView(urlString: url)
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
 

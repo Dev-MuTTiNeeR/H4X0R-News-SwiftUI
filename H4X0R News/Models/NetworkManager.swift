@@ -6,31 +6,29 @@
 //
 
 import Foundation
-import Combine
+import Observation // New library required for Observable Macros
 
-class NetworkManager: ObservableObject {
+@Observable // The new structure that replaces the old ObservableObject
+class NetworkManager {
     
-    @Published var posts = [Post]()
+    var posts = [Post]()
     
-    func fetchData() {
-        if let url = URL(string: "https://hn.algolia.com/api/v1/search?tags=front_page") {
-            let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error == nil {
-                    let decoder = JSONDecoder()
-                    if let safeData = data {
-                        do {
-                            let result = try decoder.decode(Results.self, from: safeData)
-                            DispatchQueue.main.async {
-                                self.posts = result.hits
-                            }
-                        } catch {
-                            print(error.localizedDescription)
-                        }
-                    }
-                }
-            }
-            task.resume()
+    @MainActor
+    // @MainActor: Automatically delivers the result to the Main Thread when the process is complete.
+    func fetchData() async { // added 'async' word.
+        guard let url = URL(string: "https://hn.algolia.com/api/v1/search?tags=front_page") else { return }
+        
+        do {
+            // Modern Data Retrieval: Ends in a single line, doing wait(await)
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            let decoder = JSONDecoder()
+            let results = try decoder.decode(Results.self, from: data)
+            
+            // DispatchQueue.main.async is not needed, @MainActor handled it.
+            self.posts = results.hits
+        } catch {
+            print("Error: \(error.localizedDescription)")
         }
     }
 }

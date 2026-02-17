@@ -7,11 +7,12 @@
 
 import Foundation
 
-struct Results: Decodable {
+// Modernization: Sendable added (for Thread Safety)
+struct Results: Decodable, Sendable {
     let hits: [Post]
 }
 
-struct Post: Decodable, Identifiable {
+struct Post: Decodable, Identifiable, Sendable {
     var id: String {
         return objectID
     }
