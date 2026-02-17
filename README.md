@@ -32,4 +32,4 @@ While this project is based on a classic iOS Bootcamp curriculum, I have refacto
 
 This project uses the unauthenticated Algolia API:
 ```http
-GET https://hn.algolia.com/api/v1/search?tags=front_page
+https://hn.algolia.com/api/v1/search?tags=front_page
